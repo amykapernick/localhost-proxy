@@ -1,12 +1,19 @@
 {
-  "name": "localhost-proxy",
+  "name": "localhost",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "file-system": "^2.2.2",
+    "get-port": "^5.1.1",
+    "path": "^0.12.7",
+    "yargs": "^15.4.0"
+  }
 }
