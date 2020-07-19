@@ -30,6 +30,7 @@ This is in the process of being built, it's being built over a series of Twitch 
 * [x] Setup script to take parameters and save config for a project
 * [x] Setup script to start a local server
 * [x] Setup script to start a local server from saved config
+* [x] Setup script to auto-generate a port number if not preset
 * [ ] When starting local server, proxy `localhost:{port}` url to `{site_name}.test`
 * [ ] Add config to allow changing of local TLD, eg. `.test`, `.local`, `.wip` etc
 * [ ] Integrate with [tunnelto.dev](https://tunnelto.dev) to allow automatically starting a live URL with the local server
