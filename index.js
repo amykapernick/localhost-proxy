@@ -74,3 +74,39 @@ require('yargs').command('run [site]', 'Run development site', (yargs) => {
 	});
 
 }).argv
+
+require('yargs').command('tunnel [site]', 'Start Dev site tunnel', (yargs) => {
+	yargs.positional('site', {
+		describe: 'Name of site to start'
+	})
+}, async (argv) => {
+	if(!argv.site) {
+		console.log(`Whoops, looks like you forgot the site name. We need to know what site you're running`)
+		return
+	}
+
+	if(!(fs.existsSync(path.join(require('os').homedir(), '.localhost/sites', `${argv.site}.json`)))) {
+		console.log(`Looks like that site doesn't have a config file. Try running localhost set to add the config details`)
+		return
+	}
+
+	const config = JSON.parse(fs.readFileSync(path.join(require('os').homedir(), '.localhost/sites', `${argv.site}.json`))),
+	port = config.port
+	
+	const subprocess = spawn("tunnelto", ['--port', port, '--subdomain', argv.site], {
+		cwd: config.path
+	})
+
+	subprocess.on('error', (err) => {
+		console.error(err)
+	})
+
+	subprocess.stdout.on('data', (data) => {
+		console.log(data.toString());
+	});
+	
+	subprocess.stderr.on('data', (data) => {
+		console.error(`stderr: ${data}`);
+	});
+
+}).argv
