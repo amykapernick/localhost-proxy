@@ -7,8 +7,6 @@ There are many ways you can help us make this project better. Every repository i
 
 # Contributing to this repository
 
-# Contributing to 10-Easy-Steps
-
 We :heart: contributions from our community! Thank you for taking the time to review this guide and understand how we work. And please remember, all interactions in this repository should adhere to the [code of conduct](CODE_OF_CONDUCT.md).
 
 | :bulb:                                                                         | :question:                                                                                                                     | :bug:                                  | :trophy:                                                         |
