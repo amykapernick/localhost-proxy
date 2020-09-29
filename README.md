@@ -1,4 +1,7 @@
 # Local server proxy
+![GitHub Hacktoberfest combined status](https://img.shields.io/github/hacktoberfest/2020/amykapernick/localhost-proxy)
+![GitHub contributors](https://img.shields.io/github/contributors/amykapernick/localhost-proxy)
+![GitHub](https://img.shields.io/github/license/amykapernick/localhost-proxy)
 
 **In Progress - This is currently being built**
 
