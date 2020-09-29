@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "bin": "./index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amykapernick/localhost-proxy.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Amy Kapernick <amy@kapers.dev> (https://amyskapers.dev)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amykapernick/localhost-proxy/issues"
+  },
+  "homepage": "https://github.com/amykapernick/localhost-proxy#readme",
   "dependencies": {
     "file-system": "^2.2.2",
     "get-port": "^5.1.1",
