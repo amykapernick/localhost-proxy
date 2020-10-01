@@ -5,6 +5,8 @@ path = require('path'),
 { spawn } = require('child_process'),
 getPort = require('get-port');
 
+require('yargs').scriptName("localhost");
+
 require('yargs').command('set [script]', 'Set up site config', (yargs) => {
 	yargs.positional('script', {
 		describe: 'script to run',
