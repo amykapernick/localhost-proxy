@@ -18,7 +18,7 @@ require('yargs').command('set [script]', 'Set up site config', (yargs) => {
 		script: false,
 		siteName: 'mysite'
 	}
-	
+
 	if(argv.script) {
 		config.script = argv.script
 	}
@@ -32,7 +32,7 @@ require('yargs').command('set [script]', 'Set up site config', (yargs) => {
 	}
 
 	fs.writeFileSync(path.join(require('os').homedir(), '.localhost/sites', `${config.siteName}.json`), JSON.stringify(config))
-	
+
 	console.log(config)
 }).argv
 
@@ -57,7 +57,7 @@ require('yargs').command('run [site]', 'Run development site', (yargs) => {
 	env = process.env
 
 	env.PORT = await getPort({port: config.port})
-	
+
 	const subprocess = spawn(scriptName, args, {
 		cwd: config.path,
 		env
@@ -70,7 +70,7 @@ require('yargs').command('run [site]', 'Run development site', (yargs) => {
 	subprocess.stdout.on('data', (data) => {
 		console.log(data.toString());
 	});
-	
+
 	subprocess.stderr.on('data', (data) => {
 		console.error(`stderr: ${data}`);
 	});
@@ -94,7 +94,7 @@ require('yargs').command('tunnel [site]', 'Start Dev site tunnel', (yargs) => {
 
 	const config = JSON.parse(fs.readFileSync(path.join(require('os').homedir(), '.localhost/sites', `${argv.site}.json`))),
 	port = config.port
-	
+
 	const subprocess = spawn("tunnelto", ['--port', port, '--subdomain', argv.site], {
 		cwd: config.path
 	})
@@ -106,7 +106,7 @@ require('yargs').command('tunnel [site]', 'Start Dev site tunnel', (yargs) => {
 	subprocess.stdout.on('data', (data) => {
 		console.log(data.toString());
 	});
-	
+
 	subprocess.stderr.on('data', (data) => {
 		console.error(`stderr: ${data}`);
 	});
