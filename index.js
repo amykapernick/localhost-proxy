@@ -5,6 +5,10 @@ path = require('path'),
 { spawn } = require('child_process'),
 getPort = require('get-port');
 
+function defaultSiteDir() {
+	return path.join(require('os').homedir(), '.localhost/sites');
+}
+
 require('yargs')
 	.scriptName("localhost")
 	.command('set [script] [site]', 'Set up site config', (yargs) => {
@@ -17,7 +21,12 @@ require('yargs')
 				describe: "Name of the site to configure",
 				default: "mysite",
 				type: "string",
-			});
+			})
+			.option('sitedir', {
+				describe: 'Directory where site configuration information is stored',
+				default: defaultSiteDir(),
+				type: 'string'
+			})
 	}, (argv) => {
 		let config = {
 			path: process.cwd(),
@@ -37,27 +46,34 @@ require('yargs')
 			config.port = argv.port
 		}
 
-		fs.writeFileSync(path.join(require('os').homedir(), '.localhost/sites', `${config.siteName}.json`), JSON.stringify(config))
+		fs.writeFileSync(path.join(argv.sitedir, `${config.siteName}.json`), JSON.stringify(config))
 
 		console.log(config)
 	})
 	.command('run [site]', 'Run development site', (yargs) => {
 		// TODO: If site is required, then shouldn't it be a required yarg parameter? i.e. <site>
-		yargs.positional('site', {
-			describe: 'Name of site to start'
-		})
+		yargs
+			.positional('site', {
+				describe: 'Name of site to start'
+			})
+			.option('sitedir', {
+				describe: 'Directory where site configuration information is stored',
+				default: defaultSiteDir(),
+				type: 'string'
+			})
 	}, async (argv) => {
 		if(!argv.site) {
 			console.log(`Whoops, looks like you forgot the site name. We need to know what site you're running`)
 			return
 		}
 
-		if(!(fs.existsSync(path.join(require('os').homedir(), '.localhost/sites', `${argv.site}.json`)))) {
+		const siteFile = path.join(argv.sitedir, `${argv.site}.json`);
+		if(!(fs.existsSync(siteFile))) {
 			console.log(`Looks like that site doesn't have a config file. Try running localhost set to add the config details`)
 			return
 		}
 
-		const config = JSON.parse(fs.readFileSync(path.join(require('os').homedir(), '.localhost/sites', `${argv.site}.json`))),
+		const config = JSON.parse(fs.readFileSync(siteFile)),
 		script = config.script.split(' '),
 		[scriptName, ...args] = script,
 		env = process.env
@@ -83,21 +99,28 @@ require('yargs')
 	})
 	.command('tunnel [site]', 'Start Dev site tunnel', (yargs) => {
 		// TODO: If site is required, then shouldn't it be a required yarg parameter? i.e. <site>
-		yargs.positional('site', {
-			describe: 'Name of site to start'
-		})
+		yargs
+			.positional('site', {
+				describe: 'Name of site to start'
+			})
+			.option('sitedir', {
+				describe: 'Directory where site configuration information is stored',
+				default: defaultSiteDir(),
+				type: 'string'
+			})
 	}, async (argv) => {
 		if(!argv.site) {
 			console.log(`Whoops, looks like you forgot the site name. We need to know what site you're running`)
 			return
 		}
 
-		if(!(fs.existsSync(path.join(require('os').homedir(), '.localhost/sites', `${argv.site}.json`)))) {
+		const siteFile = path.join(argv.sitedir, `${argv.site}.json`);
+		if(!(fs.existsSync(siteFile))) {
 			console.log(`Looks like that site doesn't have a config file. Try running localhost set to add the config details`)
 			return
 		}
 
-		const config = JSON.parse(fs.readFileSync(path.join(require('os').homedir(), '.localhost/sites', `${argv.site}.json`))),
+		const config = JSON.parse(fs.readFileSync(siteFile)),
 		port = config.port
 
 		const subprocess = spawn("tunnelto", ['--port', port, '--subdomain', argv.site], {
