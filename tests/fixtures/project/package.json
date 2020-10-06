@@ -1,0 +1,23 @@
+{
+  "name": "testproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amykapernick/localhost-proxy.git"
+  },
+  "scripts": {
+    "index": "node ./index.js",
+    "tcpecho": "node ./tcpecho.js"
+  },
+  "author": "Amy Kapernick <amy@kapers.dev> (https://amyskapers.dev)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amykapernick/localhost-proxy/issues"
+  },
+  "homepage": "https://github.com/amykapernick/localhost-proxy#readme",
+  "dependencies": {
+  }
+}
