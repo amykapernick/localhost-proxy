@@ -9,6 +9,8 @@ function defaultSiteDir() {
 	return path.join(require('os').homedir(), '.localhost/sites');
 }
 
+const isWindows = process.platform === "win32";
+
 require('yargs')
 	.scriptName("localhost")
 	.command('set [script] [site]', 'Set up site config', (yargs) => {
@@ -45,7 +47,6 @@ require('yargs')
 		if(argv.port) {
 			config.port = argv.port
 		}
-
 		fs.writeFileSync(path.join(argv.sitedir, `${config.siteName}.json`), JSON.stringify(config))
 
 		console.log(config)
@@ -82,7 +83,9 @@ require('yargs')
 
 		const subprocess = spawn(scriptName, args, {
 			cwd: config.path,
-			env
+			env,
+			// Use a shell on Windows as npm and node may be batch files
+			shell: isWindows
 		})
 
 		subprocess.on('error', (err) => {
